@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+    <title>戦績追加</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"></script>
+    <style>
+        .btn-group .btn input[type="radio"] {
+            display: none;
+        }
+        .btn-group .btn.active {
+            background-color: #337ab7;
+            color: white;
+        }
+    </style>
+</head>
+<body class="container">
+    <h1>新しい戦績を追加</h1>
+    <form method="post">
+        <!-- 自デッキ -->
+        <div class="form-group">
+            <label>自デッキ</label><br>
+            <div class="btn-group" data-toggle="buttons">
+              {% for deck in ['エルフ','ロイヤル','ウィッチ','ドラゴン','ナイトメア','ビショップ','ネメシス'] %}
+                <label class="btn btn-default">
+                  <input type="radio" name="my_deck" value="{{ deck }}" required> {{ deck }}
+                </label>
+              {% endfor %}
+            </div>
+        </div>
+
+        <!-- 相手デッキ -->
+        <div class="form-group">
+            <label>相手デッキ</label><br>
+            <div class="btn-group" data-toggle="buttons">
+              {% for deck in ['エルフ','ロイヤル','ウィッチ','ドラゴン','ナイトメア','ビショップ','ネメシス'] %}
+                <label class="btn btn-default">
+                  <input type="radio" name="opponent_deck" value="{{ deck }}" required> {{ deck }}
+                </label>
+              {% endfor %}
+            </div>
+        </div>
+
+        <!-- 先後 -->
+        <div class="form-group">
+            <label>先後</label>
+            <select name="turn_order" class="form-control">
+                <option>先攻</option>
+                <option>後攻</option>
+            </select>
+        </div>
+
+        <!-- 勝敗 -->
+        <div class="form-group">
+            <label>勝敗</label>
+            <select name="result" class="form-control">
+                <option>勝ち</option>
+                <option>負け</option>
+            </select>
+        </div>
+
+        <!-- ターン数 -->
+        <div class="form-group">
+            <label>ターン数</label>
+            <input name="turns" type="number" class="form-control" required>
+        </div>
+
+        <!-- 配信枠目 -->
+        <div class="form-group">
+            <label>配信枠目</label>
+            <input name="stream_num" type="number" class="form-control" required>
+        </div>
+
+        <!-- メモ -->
+        <div class="form-group">
+            <label>メモ（任意）</label>
+            <input name="memo" class="form-control">
+        </div>
+
+        <!-- ボタン -->
+        <button class="btn btn-success">登録</button>
+        <a class="btn btn-default" href="{{ url_for('index') }}">戻る</a>
+    </form>
+</body>
+</html>

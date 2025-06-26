@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+  <title>勝率集計</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
+  <style>
+    .nav-tabs > li > a {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body class="container">
+
+  <!-- ナビゲーションタブ -->
+  <ul class="nav nav-tabs" style="margin-bottom:20px;">
+    <li class="{% if active_tab == 'index' %}active{% endif %}">
+      <a href="{{ url_for('index') }}">戦績一覧</a>
+    </li>
+    <li class="{% if active_tab == 'stats' %}active{% endif %}">
+      <a href="{{ url_for('stats') }}">勝率集計</a>
+    </li>
+  </ul>
+
+  <h1>勝率集計</h1>
+
+  <form id="filterForm" method="get" action="{{ url_for('stats') }}">
+    <!-- 自クラスタブ -->
+    <ul class="nav nav-tabs">
+      {% for c in classes %}
+      <li class="{% if c == my_class %}active{% endif %}">
+        <a onclick="selectMyClass('{{ c }}')">{{ c }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+    <input type="hidden" name="my_class" id="my_class" value="{{ my_class }}">
+
+    <!-- 相手クラスタブ -->
+    <ul class="nav nav-tabs" style="margin-top:20px;">
+      {% for c in classes %}
+      <li class="{% if c == opp_class %}active{% endif %}">
+        <a onclick="selectOppClass('{{ c }}')">{{ c }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+    <input type="hidden" name="opp_class" id="opp_class" value="{{ opp_class }}">
+
+    <button type="submit" class="btn btn-primary" style="margin-top:20px;">集計する</button>
+  </form>
+
+  <div style="margin-top:40px;">
+    <h3>集計結果</h3>
+    <p>条件: 自クラス = <strong>{{ my_class }}</strong>、相手クラス = <strong>{{ opp_class }}</strong></p>
+    <p>試合数: {{ total }}</p>
+    <p>勝利数: {{ wins }}</p>
+    <p>勝率: {{ win_rate }}</p>
+  </div>
+
+<script>
+  function selectMyClass(c) {
+    document.getElementById('my_class').value = c;
+    document.getElementById('filterForm').submit();
+  }
+  function selectOppClass(c) {
+    document.getElementById('opp_class').value = c;
+    document.getElementById('filterForm').submit();
+  }
+</script>
+
+</body>
+</html>

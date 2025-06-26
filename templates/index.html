@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+    <title>シャドバ戦績一覧</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
+</head>
+<body class="container">
+
+  <!-- ナビゲーションタブ -->
+  <ul class="nav nav-tabs" style="margin-bottom:20px;">
+    <li class="{% if active_tab == 'index' %}active{% endif %}">
+      <a href="{{ url_for('index') }}">戦績一覧</a>
+    </li>
+    <li class="{% if active_tab == 'stats' %}active{% endif %}">
+      <a href="{{ url_for('stats') }}">勝率集計</a>
+    </li>
+  </ul>
+
+  <h1>シャドバ戦績一覧</h1>
+  <a class="btn btn-primary" href="{{ url_for('add') }}">＋ 新規追加</a>
+  <table class="table table-bordered table-striped" style="margin-top:1em;">
+      <thead>
+          <tr>
+              <th>No.</th><th>自デッキ</th><th>相手デッキ</th><th>先後</th>
+              <th>勝敗</th><th>ターン</th><th>配信枠</th><th>メモ</th><th>操作</th>
+          </tr>
+      </thead>
+      <tbody>
+      {% for m in matches %}
+          <tr>
+              <td>{{ loop.index }}</td>
+              <td>{{ m.my_deck }}</td>
+              <td>{{ m.opponent_deck }}</td>
+              <td>{{ m.turn_order }}</td>
+              <td>{{ m.result }}</td>
+              <td>{{ m.turns }}</td>
+              <td>{{ m.stream_num }}</td>
+              <td>{{ m.memo }}</td>
+              <td>
+                  <a href="{{ url_for('edit', id=m.id) }}" class="btn btn-xs btn-warning">編集</a>
+                  <form action="{{ url_for('delete', id=m.id) }}" method="post" style="display:inline;">
+                      <button class="btn btn-xs btn-danger" onclick="return confirm('削除しますか？');">削除</button>
+                  </form>
+              </td>
+          </tr>
+      {% endfor %}
+      </tbody>
+  </table>
+</body>
+</html>
+
