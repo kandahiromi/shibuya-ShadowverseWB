@@ -27,11 +27,12 @@ def add():
         turns = request.form['turns']
         stream_num = request.form['stream_num']
         memo = request.form.get('memo', '')
+        youtube_url = request.form.get('youtube_url', '')  # 追加部分
 
         conn = get_db_connection()
         conn.execute(
-            'INSERT INTO matches (my_deck, opponent_deck, turn_order, result, turns, stream_num, memo) VALUES (?, ?, ?, ?, ?, ?, ?)',
-            (my_deck, opponent_deck, turn_order, result, turns, stream_num, memo)
+            'INSERT INTO matches (my_deck, opponent_deck, turn_order, result, turns, stream_num, memo, youtube_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+            (my_deck, opponent_deck, turn_order, result, turns, stream_num, memo, youtube_url)
         )
         conn.commit()
         conn.close()
@@ -52,10 +53,11 @@ def edit(id):
         turns = request.form['turns']
         stream_num = request.form['stream_num']
         memo = request.form.get('memo', '')
+        youtube_url = request.form.get('youtube_url', '')  # 追加部分
 
         conn.execute(
-            'UPDATE matches SET my_deck=?, opponent_deck=?, turn_order=?, result=?, turns=?, stream_num=?, memo=? WHERE id=?',
-            (my_deck, opponent_deck, turn_order, result, turns, stream_num, memo, id)
+            'UPDATE matches SET my_deck=?, opponent_deck=?, turn_order=?, result=?, turns=?, stream_num=?, memo=?, youtube_url=? WHERE id=?',
+            (my_deck, opponent_deck, turn_order, result, turns, stream_num, memo, youtube_url, id)
         )
         conn.commit()
         conn.close()

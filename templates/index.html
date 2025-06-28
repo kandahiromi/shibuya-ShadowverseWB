@@ -22,7 +22,7 @@
       <thead>
           <tr>
               <th>No.</th><th>自デッキ</th><th>相手デッキ</th><th>先後</th>
-              <th>勝敗</th><th>ターン</th><th>配信枠</th><th>メモ</th><th>操作</th>
+              <th>勝敗</th><th>ターン</th><th>配信枠</th><th>メモ</th><th>YouTubeリンク</th><th>操作</th>
           </tr>
       </thead>
       <tbody>
@@ -37,6 +37,13 @@
               <td>{{ m.stream_num }}</td>
               <td>{{ m.memo }}</td>
               <td>
+                {% if m.youtube_url %}
+                  <a href="{{ m.youtube_url }}" target="_blank">動画リンク</a>
+                {% else %}
+                  なし
+                {% endif %}
+              </td>
+              <td>
                   <a href="{{ url_for('edit', id=m.id) }}" class="btn btn-xs btn-warning">編集</a>
                   <form action="{{ url_for('delete', id=m.id) }}" method="post" style="display:inline;">
                       <button class="btn btn-xs btn-danger" onclick="return confirm('削除しますか？');">削除</button>
@@ -48,4 +55,3 @@
   </table>
 </body>
 </html>
-
